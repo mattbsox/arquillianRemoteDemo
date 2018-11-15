@@ -1,63 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="
+        http://maven.apache.org/POM/4.0.0
+        http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
-	<groupId>liberty.maven</groupId>
-	<artifactId>test</artifactId>
-	<version>1.0-SNAPSHOT</version>
-	<packaging>liberty-assembly</packaging>
 
 	<parent>
 		<groupId>net.wasdev.wlp.maven.parent</groupId>
 		<artifactId>liberty-maven-app-parent</artifactId>
-		<version>2.0</version>
+		<version>2.4.2</version>
 	</parent>
 
-	<licenses>
-		<license>
-			<name>The Apache Software License, Version 2.0</name>
-			<url>https://raw.github.com/WASdev/tool.accelerate.core/master/LICENSE</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
+	<groupId>io.openliberty.guides</groupId>
+	<artifactId>guide-arquillian-managed</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
 
-	<scm>
-		<connection>scm:git:git@github.com:WASdev/tool.accelerate.core.git</connection>
-		<developerConnection>scm:git@github.com:WASdev/tool.accelerate.core.git</developerConnection>
-		<url>git@github.com:WASdev/tool.accelerate.core.git</url>
-	</scm>
+	<name>guide-arquillian-managed</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-
-		<!-- Liberty server properties -->
-		<wlpServerName>LibertyProjectServer</wlpServerName>
-		<testServerHttpPort>80</testServerHttpPort>
-		<testServerHttpsPort>443</testServerHttpsPort>
-		<!--This is set in the ibm-web-ext.xml file -->
-		<warContext>myLibertyApp</warContext>
-		<package.file>${project.build.directory}/${app.name}.zip</package.file>
-		<packaging.type>usr</packaging.type>
+		<maven.compiler.source>1.7</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
 	</properties>
-
-	<repositories>
-		<repository>
-			<id>liberty-starter-maven-repo</id>
-			<name>liberty-starter-maven-repo</name>
-			<url>http://liberty-starter.wasdev.developer.ibm.com/start/api/v1/repo</url>
-		</repository>
-	</repositories>
 
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.jboss.arquillian</groupId>
 				<artifactId>arquillian-bom</artifactId>
-				<version>1.1.13.Final</version>
+				<version>1.4.0.Final</version>
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
@@ -66,188 +39,82 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
+			<version>1.2</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>io.openliberty.arquillian</groupId>
-			<artifactId>arquillian-liberty-remote</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-		<!-- <dependency>
-			<groupId>org.jboss.arquillian.container</groupId>
-			<artifactId>arquillian-wlp-remote-8.5</artifactId>
-			<version>1.0.0.Beta2</version>
-			<scope>test</scope>
-		</dependency> -->
-		<dependency>
-			<groupId>org.jboss.shrinkwrap.resolver</groupId>
-			<artifactId>shrinkwrap-resolver-impl-maven</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.arquillian.junit</groupId>
-			<artifactId>arquillian-junit-container</artifactId>
+			<artifactId>arquillian-liberty-managed-junit</artifactId>
+			<version>1.1.1</version>
+			<type>pom</type>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.shrinkwrap</groupId>
 			<artifactId>shrinkwrap-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<version>1.4.195</version>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-rs-client</artifactId>
-			<version>3.1.11</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish</groupId>
-			<artifactId>javax.json</artifactId>
-			<version>1.0.4</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.javalite</groupId>
-			<artifactId>javalite-common</artifactId>
-			<version>1.4.13</version>
-		</dependency>
-		<dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>20140107</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.ejb</groupId>
-			<artifactId>javax.ejb-api</artifactId>
-			<version>3.2</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>net.wasdev.wlp.starters.rest</groupId>
-			<artifactId>provided-pom</artifactId>
-			<version>0.0.3</version>
-			<type>pom</type>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>net.wasdev.wlp.starters.web</groupId>
-			<artifactId>provided-pom</artifactId>
-			<version>0.0.3</version>
-			<type>pom</type>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>net.wasdev.wlp.starters.persistence</groupId>
-			<artifactId>provided-pom</artifactId>
-			<version>0.0.3</version>
-			<type>pom</type>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>net.wasdev.wlp.starters.rest</groupId>
-			<artifactId>runtime-pom</artifactId>
-			<version>0.0.3</version>
-			<type>pom</type>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>net.wasdev.wlp.starters.web</groupId>
-			<artifactId>runtime-pom</artifactId>
-			<version>0.0.3</version>
-			<type>pom</type>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>net.wasdev.wlp.starters.persistence</groupId>
-			<artifactId>runtime-pom</artifactId>
-			<version>0.0.3</version>
-			<type>pom</type>
-			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.10</version>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.21.0</version>
 				<executions>
 					<execution>
-						<id>copy-server-files</id>
-						<phase>package</phase>
+						<id>failsafe-integration-test</id>
+						<phase>integration-test</phase>
 						<goals>
-							<goal>copy-dependencies</goal>
+							<goal>integration-test</goal>
 						</goals>
-						<configuration>
-							<includeArtifactIds>server-snippet</includeArtifactIds>
-							<prependGroupId>true</prependGroupId>
-							<outputDirectory>${project.build.directory}/wlp/usr/servers/${wlpServerName}/configDropins/defaults</outputDirectory>
-						</configuration>
 					</execution>
 					<execution>
-						<id>copy-h2-jar</id>
-						<phase>package</phase>
+						<id>failsafe-verify</id>
+						<phase>verify</phase>
 						<goals>
-							<goal>copy-dependencies</goal>
+							<goal>verify</goal>
 						</goals>
-						<configuration>
-							<includeArtifactIds>h2</includeArtifactIds>
-							<prependGroupId>true</prependGroupId>
-							<outputDirectory>${project.build.directory}/wlp/usr/shared/resources/h2</outputDirectory>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
+
 			<plugin>
 				<groupId>net.wasdev.wlp.maven.plugins</groupId>
 				<artifactId>liberty-maven-plugin</artifactId>
-				<version>2.6.2</version>
+				<version>2.4.2</version>
 				<extensions>true</extensions>
 				<!-- Specify configuration, executions for liberty-maven-plugin -->
 				<configuration>
-					<serverName>LibertyProjectServer</serverName>
+					<serverName>ArquillianManagedServer</serverName>
 					<assemblyArtifact>
-						<groupId>com.ibm.websphere.appserver.runtime</groupId>
-						<artifactId>wlp-webProfile7</artifactId>
-						<version>18.0.0.1</version>
+						<groupId>io.openliberty</groupId>
+						<artifactId>openliberty-runtime</artifactId>
+						<version>[17.0.0.4,)</version>
 						<type>zip</type>
 					</assemblyArtifact>
-					<assemblyInstallDirectory>${project.build.directory}</assemblyInstallDirectory>
-					<configFile>src/main/liberty/config/server.xml</configFile>
-					<bootstrapProperties>
-						<default.http.port>80</default.http.port>
-						<default.https.port>443</default.https.port>
-					</bootstrapProperties>
 					<features>
 						<acceptLicense>true</acceptLicense>
 					</features>
-					<include>usr</include>
-					<installAppPackages>all</installAppPackages>
-					<appsDirectory>apps</appsDirectory>
-					<stripVersion>true</stripVersion>
-					<looseApplication>true</looseApplication>
 					<skipTestServer>true</skipTestServer>
-					<arquillianProperties>
-						<hostName>arquillianremotetestserver.mybluemix.net</hostName>
-						<username>admin</username>
-						<password>admin</password>
-						<httpPort>80</httpPort>
-						<httpsPort>443</httpsPort>
-						<serverName>LibertyProjectServer</serverName>
-						<appDeployTimeout>120</appDeployTimeout>
-					</arquillianProperties>
-					<skipIfArquillianXmlExists>false</skipIfArquillianXmlExists>
 				</configuration>
+				<executions>
+					<execution>
+						<id>install-apps</id>
+						<phase>none</phase>
+					</execution>
+					<execution>
+						<id>configure-arquillian-xml</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>configure-arquillian</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
-
 	</build>
-	
 </project>
